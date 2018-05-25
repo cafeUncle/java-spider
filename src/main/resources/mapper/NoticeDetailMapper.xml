@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spiderjava.dao.NoticeDetailMapper">
+  <resultMap id="BaseResultMap" type="com.example.spiderjava.model.NoticeDetail">
+    <id column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="market_id" jdbcType="INTEGER" property="marketId" />
+    <result column="market_notice_id" jdbcType="INTEGER" property="marketNoticeId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="top_notice" jdbcType="VARCHAR" property="topNotice" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.spiderjava.model.NoticeDetail">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notice_id, market_id, market_notice_id, title, created, `source`, top_notice, weight
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.example.spiderjava.model.NoticeDetailExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.example.spiderjava.model.NoticeDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice_detail
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notice_detail
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spiderjava.model.NoticeDetailExample">
+    delete from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spiderjava.model.NoticeDetail">
+    insert into notice_detail (notice_id, market_id, market_notice_id, 
+      title, created, `source`, 
+      top_notice, weight, content
+      )
+    values (#{noticeId,jdbcType=INTEGER}, #{marketId,jdbcType=INTEGER}, #{marketNoticeId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, 
+      #{topNotice,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spiderjava.model.NoticeDetail">
+    insert into notice_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="marketNoticeId != null">
+        market_notice_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="source != null">
+        `source`,
+      </if>
+      <if test="topNotice != null">
+        top_notice,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=INTEGER},
+      </if>
+      <if test="marketNoticeId != null">
+        #{marketNoticeId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="topNotice != null">
+        #{topNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spiderjava.model.NoticeDetailExample" resultType="java.lang.Long">
+    select count(*) from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update notice_detail
+    <set>
+      <if test="record.noticeId != null">
+        notice_id = #{record.noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.marketId != null">
+        market_id = #{record.marketId,jdbcType=INTEGER},
+      </if>
+      <if test="record.marketNoticeId != null">
+        market_notice_id = #{record.marketNoticeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.source != null">
+        `source` = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topNotice != null">
+        top_notice = #{record.topNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update notice_detail
+    set notice_id = #{record.noticeId,jdbcType=INTEGER},
+      market_id = #{record.marketId,jdbcType=INTEGER},
+      market_notice_id = #{record.marketNoticeId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      `source` = #{record.source,jdbcType=VARCHAR},
+      top_notice = #{record.topNotice,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update notice_detail
+    set notice_id = #{record.noticeId,jdbcType=INTEGER},
+      market_id = #{record.marketId,jdbcType=INTEGER},
+      market_notice_id = #{record.marketNoticeId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      `source` = #{record.source,jdbcType=VARCHAR},
+      top_notice = #{record.topNotice,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spiderjava.model.NoticeDetail">
+    update notice_detail
+    <set>
+      <if test="marketId != null">
+        market_id = #{marketId,jdbcType=INTEGER},
+      </if>
+      <if test="marketNoticeId != null">
+        market_notice_id = #{marketNoticeId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null">
+        `source` = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="topNotice != null">
+        top_notice = #{topNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.spiderjava.model.NoticeDetail">
+    update notice_detail
+    set market_id = #{marketId,jdbcType=INTEGER},
+      market_notice_id = #{marketNoticeId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      `source` = #{source,jdbcType=VARCHAR},
+      top_notice = #{topNotice,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spiderjava.model.NoticeDetail">
+    update notice_detail
+    set market_id = #{marketId,jdbcType=INTEGER},
+      market_notice_id = #{marketNoticeId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      `source` = #{source,jdbcType=VARCHAR},
+      top_notice = #{topNotice,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.example.spiderjava.model.NoticeDetailExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="com.example.spiderjava.model.NoticeDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from notice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
